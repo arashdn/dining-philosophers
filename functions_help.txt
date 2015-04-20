@@ -1,0 +1,54 @@
+int pthread_create  ----> Creates a new thread
+(pthread_t * thread,  ----> ye handle be thread sakhte shode , tamam kara ba hanlde khahad bood
+const pthread_attr_t * attr,  ----> attribute haye thread , age lazem nabashe NULL midim
+void * (*start_routine)(void *), ---->functioni ke bayad bere too thread va ejra beshe
+void *arg ----> argument haye function
+);
+
+
+
+int pthread_join ---->barname ro negah midate ta thread takmil beshe , either by calling
+pthread_exit() or by being cancelled.
+(pthread_t th,  ----> threadi ke bayad karesh tamum beshe
+void **thread_return  ---->If thread_return is not NULL, the return value of th is stored in the location pointed to by thread_return.
+);
+
+
+
+
+pthread_mutex_init(,)
+
+
+
+
+pthread_mutex_lock()
+
+
+
+pthread_mutex_unlock() 
+
+
+
+
+--------Thread in class --------------
+You can't do it the way you've written it because C++ class member functions have a hidden this parameter passed in. pthread_create() has no idea what value of this to use, so if you try to get around the compiler by casting the method to a function pointer of the appropriate type, you'll get a segmetnation fault. You have to use a static class method (which has no this parameter), or a plain ordinary function to bootstrap the class:
+
+class C
+{
+public:
+    void *hello(void)
+    {
+        std::cout << "Hello, world!" << std::endl;
+        return 0;
+    }
+
+    static void *hello_helper(void *context)
+    {
+        return ((C *)context)->hello();
+    }
+};
+...
+C c;
+pthread_t t;
+pthread_create(&t, NULL, &C::hello_helper, &c);
+
