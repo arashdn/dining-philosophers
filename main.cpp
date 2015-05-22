@@ -18,14 +18,6 @@ int main()
 	{
 		ph[i].setId(i+1);
 	}
-	// for (int i = 0; i < NUMBER; ++i)
-	// {
-	// 	t[i] = ph[i].doEating(&f[i],&f[(i+1)%NUMBER]);
-	// }
-	// for (int i = 0; i < NUMBER; ++i)
-	// {
-	// 	pthread_join(t[i],NULL);
-	// }
 
 
 	for (int i = 0; i < 10; ++i)
